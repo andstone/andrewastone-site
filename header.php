@@ -36,7 +36,7 @@
 		<div class="off-canvas-wrap" data-offcanvas>
 			<div class="inner-wrap">
 				<div id="container">
-					<header class="header" role="banner">HELLO
+					<header class="header" role="banner">
 							
 						 <!-- This navs will be applied to the topbar, above all content 
 							  To see additional nav styles, visit the /partials directory -->
