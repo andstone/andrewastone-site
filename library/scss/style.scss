@@ -117,3 +117,11 @@ be set to display none.
 @media print {
 	@import "print";
 }
+
+#inner-header {
+	display:none;
+}
+
+.container {
+    border: 1px dashed #ccc;
+}

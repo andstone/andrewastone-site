@@ -11,6 +11,8 @@ slow the page load.
 
 // as the page loads, call these scripts
 jQuery(document).ready(function($) {
+
+   
 	// load Foundation
 	jQuery(document).foundation();
 	
@@ -20,9 +22,19 @@ jQuery(document).ready(function($) {
     });
     
 
+
 // add all your scripts here
-	
- 
+
+var items = [];
+for ( var i = 0; i < 10; i++ ) {
+items.push( "<img src='https://unsplash.it/300/200/?random="+i+"' />" );
+}
+$( "<ul/>", {
+    "class": "my-new-list",
+    html: items.join( "" )
+  }).appendTo( ".container" );
+
+
 }); /* end of as page load scripts */
 
 

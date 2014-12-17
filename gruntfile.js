@@ -10,10 +10,11 @@ module.exports = function(grunt) {
         tasks: ['compass:dist'],
       },
       css: {
-        files: ['*.css']
-      },
-      livereload: {
         files: ['library/css/*.css'],
+        options: { livereload: 35729 }
+      },
+      js: {
+        files: ['library/js/*.js'],
         options: { livereload: 35729 }
       },
       php: {
@@ -24,26 +25,6 @@ module.exports = function(grunt) {
       }
 
     },
-
-    // Sass object
-    sass: {
-      dev: {
-        files: [
-          {
-            src: ['**/*.sass', '!**/_*.sass'],
-            cwd: 'sass',
-            dest: 'css',
-            ext: '.css',
-            expand: true
-          }
-        ],
-        options: {
-          style: 'expanded',
-          compass: true
-        }
-      }
-    },
-
     compass: {
       dist: {
         options: {

@@ -9,30 +9,25 @@ Template Name: Home
 			<div id="content">
 			
 				<div id="inner-content" class="row">
-					<div id="bio" class="large-8 large-centered columns" data-clearing>
-				    <div id="main" class="small-12 large-6 columns first" role="main">
+					<div class="small-12 large-8 large-centered column">
+				    <div id="main" class="small-12 large-6 columns" role="main">
 					
-					    <?php get_template_part( 'partials/loop', 'home' ); ?>
+					    <?php get_template_part( 'partials/loop', 'page' ); ?>
 					    						
 				    </div> <!-- end #main -->
-				    <div id="sidebar" class="small-12 large-6 columns" role="complementary">
-					
-					     <?php get_sidebar(); ?>
-					    						
-				    </div> <!-- end #main -->
-    
-				   </div>
-				<div class="container">
-  <div>Spans 1 Column</div>
-  <div>Spans 2 Columns</div>
-  <div>Spans 3 Columns</div>
-  <div>Spans 4 Columns</div>
-  ...
+
+    				 <div id="main" class="small-12 large-6 columns" role="complimentary">
+
+				    	<?php get_sidebar(); ?>
+
+				    </div>
+				    </div>
+<div class="container large-12 column">
+
 </div>
-				    
 
 				</div> <!-- end #inner-content -->
-
+    
 			</div> <!-- end #content -->
 
 <?php get_footer(); ?>
