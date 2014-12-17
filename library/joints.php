@@ -128,10 +128,14 @@ function joints_scripts_and_styles() {
     // register foundation icons
     wp_enqueue_style( 'foundation-icons', get_template_directory_uri() . '/library/css/icons/foundation-icons.css', array(), $theme_version, 'all' );
 
+
     // comment reply script for threaded comments
     if ( is_singular() AND comments_open() AND (get_option('thread_comments') == 1)) {
       wp_enqueue_script( 'comment-reply' );
     }
+
+    // //adding scripts file in the footer
+    // wp_enqueue_script( 'shapeshifter-js', get_template_directory_uri() . '/bower_components/jquery.shapeshift/core/jquery.shapeshift.min.js', array( 'jquery' ), $theme_version, true );
 
     //adding scripts file in the footer
     wp_enqueue_script( 'joints-js', get_template_directory_uri() . '/library/js/scripts.js', array( 'jquery' ), $theme_version, true );

@@ -4,7 +4,7 @@
   Foundation.libs.interchange = {
     name : 'interchange',
 
-    version : '5.5.0',
+    version : '5.2.3',
 
     cache : {},
 
@@ -15,19 +15,15 @@
       load_attr : 'interchange',
 
       named_queries : {
-        'default'     : 'only screen',
-        'small'       : Foundation.media_queries['small'],
-        'small-only'  : Foundation.media_queries['small-only'],
-        'medium'      : Foundation.media_queries['medium'],
-        'medium-only' : Foundation.media_queries['medium-only'],
-        'large'       : Foundation.media_queries['large'],
-        'large-only'  : Foundation.media_queries['large-only'],
-        'xlarge'      : Foundation.media_queries['xlarge'],
-        'xlarge-only' : Foundation.media_queries['xlarge-only'],
-        'xxlarge'     : Foundation.media_queries['xxlarge'],
-        'landscape'   : 'only screen and (orientation: landscape)',
-        'portrait'    : 'only screen and (orientation: portrait)',
-        'retina'      : 'only screen and (-webkit-min-device-pixel-ratio: 2),' +
+        'default' : 'only screen',
+        small : Foundation.media_queries.small,
+        medium : Foundation.media_queries.medium,
+        large : Foundation.media_queries.large,
+        xlarge : Foundation.media_queries.xlarge,
+        xxlarge: Foundation.media_queries.xxlarge,
+        landscape : 'only screen and (orientation: landscape)',
+        portrait : 'only screen and (orientation: portrait)',
+        retina : 'only screen and (-webkit-min-device-pixel-ratio: 2),' +
           'only screen and (min--moz-device-pixel-ratio: 2),' +
           'only screen and (-o-min-device-pixel-ratio: 2/1),' +
           'only screen and (min-device-pixel-ratio: 2),' +
@@ -57,8 +53,7 @@
 
             return trigger(el[0].src);
           }
-          var last_path = el.data(this.data_attr + '-last-path'),
-              self = this;
+          var last_path = el.data(this.data_attr + '-last-path');
 
           if (last_path == path) return;
 
@@ -70,7 +65,7 @@
 
           return $.get(path, function (response) {
             el.html(response);
-            el.data(self.data_attr + '-last-path', path);
+            el.data(this.data_attr + '-last-path', path);
             trigger();
           });
 
@@ -236,7 +231,11 @@
         this.object($(this['cached_' + type][i]));
       }
 
-      return $(window).trigger('resize').trigger('resize.fndtn.interchange');
+      return $(window).trigger('resize');
+    },
+
+    parse_params : function (path, directive, mq) {
+      return [this.trim(path), this.convert_directive(directive), this.trim(mq)];
     },
 
     convert_directive : function (directive) {
@@ -250,25 +249,6 @@
       return 'replace';
     },
 
-    parse_scenario : function (scenario) {
-      // This logic had to be made more complex since some users were using commas in the url path
-      // So we cannot simply just split on a comma
-      var directive_match = scenario[0].match(/(.+),\s*(\w+)\s*$/),
-      media_query         = scenario[1];
-
-      if (directive_match) {
-        var path  = directive_match[1],
-        directive = directive_match[2];
-      }
-      else {
-        var cached_split = scenario[0].split(/,\s*$/),
-        path             = cached_split[0],
-        directive        = '';               
-      }
-
-      return [this.trim(path), this.convert_directive(directive), this.trim(media_query)];
-    },
-
     object : function(el) {
       var raw_arr = this.parse_data_attr(el),
           scenarios = [], 
@@ -279,7 +259,10 @@
           var split = raw_arr[i].split(/\((.*?)(\))$/);
 
           if (split.length > 1) {
-            var params = this.parse_scenario(split);
+            var cached_split = split[0].split(/\, /),
+                params = this.parse_params(cached_split[0],
+                  cached_split[1], split[1]);
+
             scenarios.push(params);
           }
         }

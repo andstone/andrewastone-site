@@ -4,7 +4,7 @@
   Foundation.libs.reveal = {
     name : 'reveal',
 
-    version : '5.5.0',
+    version : '5.2.3',
 
     locked : false,
 
@@ -15,8 +15,6 @@
       close_on_esc: true,
       dismiss_modal_class: 'close-reveal-modal',
       bg_class: 'reveal-modal-bg',
-      bg_root_element: 'body',
-      root_element: 'body',
       open: function(){},
       opened: function(){},
       close: function(){},
@@ -47,9 +45,9 @@
 
       S(this.scope)
         .off('.reveal')
-        .on('click.fndtn.reveal', '[' + this.add_namespace('data-reveal-id') + ']:not([disabled])', function (e) {
+        .on('click.fndtn.reveal', '[' + this.add_namespace('data-reveal-id') + ']', function (e) {
           e.preventDefault();
-        
+
           if (!self.locked) {
             var element = S(this),
                 ajax = element.data(self.data_attr('reveal-ajax'));
@@ -67,12 +65,12 @@
         });
 
       S(document)
-        .on('click.fndtn.reveal', this.close_targets(), function (e) {
+        .on('touchend.fndtn.reveal click.fndtn.reveal', this.close_targets(), function (e) {
 
           e.preventDefault();
 
           if (!self.locked) {
-            var settings = S('[' + self.attr_name() + '].open').data(self.attr_name(true) + '-init') || self.settings,
+            var settings = S('[' + self.attr_name() + '].open').data(self.attr_name(true) + '-init'),
                 bg_clicked = S(e.target)[0] === S('.' + settings.bg_class)[0];
 
             if (bg_clicked) {
@@ -118,7 +116,7 @@
       // PATCH #1: fixing multiple keyup event trigger from single key press
       self.S('body').off('keyup.fndtn.reveal').on('keyup.fndtn.reveal', function ( event ) {
         var open_modal = self.S('[' + self.attr_name() + '].open'),
-            settings = open_modal.data(self.attr_name(true) + '-init') || self.settings ;
+            settings = open_modal.data(self.attr_name(true) + '-init');
         // PATCH #2: making sure that the close event can be called only while unlocked,
         //           so that multiple keyup.fndtn.reveal events don't prevent clean closing of the reveal window.
         if ( settings && event.which === 27  && settings.close_on_esc && !self.locked) { // 27 is the keycode for the Escape key
@@ -134,7 +132,6 @@
       this.S('body').off('keyup.fndtn.reveal');
       return true;
     },
-
 
     open : function (target, ajax_settings) {
       var self = this,
@@ -156,11 +153,6 @@
       var settings = modal.data(self.attr_name(true) + '-init');
       settings = settings || this.settings;
 
-
-      if (modal.hasClass('open') && target.attr('data-reveal-id') == modal.attr('id')) {
-        return self.close(modal);
-      }
-
       if (!modal.hasClass('open')) {
         var open_modal = self.S('[' + self.attr_name() + '].open');
 
@@ -170,7 +162,7 @@
         }
 
         this.key_up_on(modal);    // PATCH #3: turning on key up capture only when a reveal window is open
-        modal.trigger('open').trigger('open.fndtn.reveal');
+        modal.trigger('open');
 
         if (open_modal.length < 1) {
           this.toggle_bg(modal, true);
@@ -194,8 +186,7 @@
           $.extend(ajax_settings, {
             success: function (data, textStatus, jqXHR) {
               if ( $.isFunction(old_success) ) {
-                var result = old_success(data, textStatus, jqXHR);
-                if (typeof result == 'string') data = result;
+                old_success(data, textStatus, jqXHR);
               }
 
               modal.html(data);
@@ -212,7 +203,6 @@
           $.ajax(ajax_settings);
         }
       }
-      self.S(window).trigger('resize');
     },
 
     close : function (modal) {
@@ -223,7 +213,7 @@
       if (open_modals.length > 0) {
         this.locked = true;
         this.key_up_off(modal);   // PATCH #3: turning on key up capture only when a reveal window is open
-        modal.trigger('close').trigger('close.fndtn.reveal');
+        modal.trigger('close');
         this.toggle_bg(modal, false);
         this.hide(open_modals, settings.css.close, settings);
       }
@@ -239,13 +229,10 @@
       return base;
     },
 
-    toggle_bg : function (el, modal, state) {
-      var settings = el.data(this.attr_name(true) + '-init') || this.settings,
-            bg_root_element = settings.bg_root_element; // Adding option to specify the background root element fixes scrolling issue
-      
+    toggle_bg : function (modal, state) {
       if (this.S('.' + this.settings.bg_class).length === 0) {
         this.settings.bg = $('<div />', {'class': this.settings.bg_class})
-          .appendTo(bg_root_element).hide();
+          .appendTo('body').hide();
       }
 
       var visible = this.settings.bg.filter(':visible').length > 0;
@@ -261,18 +248,19 @@
     show : function (el, css) {
       // is modal
       if (css) {
-        var settings = el.data(this.attr_name(true) + '-init') || this.settings,
-            root_element = settings.root_element;
+        var settings = el.data(this.attr_name(true) + '-init');
+        settings = settings || this.settings;
 
-        if (el.parent(root_element).length === 0) {
-          var placeholder = el.wrap('<div style="display: none;" />').parent();
+        if (el.parent('body').length === 0) {
+          var placeholder = el.wrap('<div style="display: none;" />').parent(),
+              rootElement = this.settings.rootElement || 'body';
 
           el.on('closed.fndtn.reveal.wrapped', function() {
             el.detach().appendTo(placeholder);
             el.unwrap().unbind('closed.fndtn.reveal.wrapped');
           });
 
-          el.detach().appendTo(root_element);
+          el.detach().appendTo(rootElement);
         }
 
         var animData = getAnimationData(settings.animation);
@@ -280,9 +268,9 @@
           this.locked = false;
         }
         if (animData.pop) {
-          css.top = $(root_element).scrollTop() - el.data('offset') + 'px'; //adding root_element instead of window for scrolling offset if modal trigger is below the fold
+          css.top = $(window).scrollTop() - el.data('offset') + 'px';
           var end_css = {
-            top: $(root_element).scrollTop() + el.data('css-top') + 'px', //adding root_element instead of window for scrolling offset if modal trigger is below the fold
+            top: $(window).scrollTop() + el.data('css-top') + 'px',
             opacity: 1
           };
 
@@ -291,14 +279,14 @@
               .css(css)
               .animate(end_css, settings.animation_speed, 'linear', function () {
                 this.locked = false;
-                el.trigger('opened').trigger('opened.fndtn.reveal');
+                el.trigger('opened');
               }.bind(this))
               .addClass('open');
           }.bind(this), settings.animation_speed / 2);
         }
 
         if (animData.fade) {
-          css.top = $(root_element).scrollTop() + el.data('css-top') + 'px'; //adding root_element instead of window for scrolling offset if modal trigger is below the fold
+          css.top = $(window).scrollTop() + el.data('css-top') + 'px';
           var end_css = {opacity: 1};
 
           return setTimeout(function () {
@@ -306,13 +294,13 @@
               .css(css)
               .animate(end_css, settings.animation_speed, 'linear', function () {
                 this.locked = false;
-                el.trigger('opened').trigger('opened.fndtn.reveal');
+                el.trigger('opened');
               }.bind(this))
               .addClass('open');
           }.bind(this), settings.animation_speed / 2);
         }
 
-        return el.css(css).show().css({opacity: 1}).addClass('open').trigger('opened').trigger('opened.fndtn.reveal');
+        return el.css(css).show().css({opacity: 1}).addClass('open').trigger('opened');
       }
 
       var settings = this.settings;
@@ -330,8 +318,8 @@
     hide : function (el, css) {
       // is modal
       if (css) {
-        var settings = el.data(this.attr_name(true) + '-init') || this.settings,
-            root_element = settings.root_element;
+        var settings = el.data(this.attr_name(true) + '-init');
+        settings = settings || this.settings;
 
         var animData = getAnimationData(settings.animation);
         if (!animData.animate) {
@@ -339,7 +327,7 @@
         }
         if (animData.pop) {
           var end_css = {
-            top: - $(root_element).scrollTop() - el.data('offset') + 'px', //adding root_element instead of window for scrolling offset if modal trigger is below the fold
+            top: - $(window).scrollTop() - el.data('offset') + 'px',
             opacity: 0
           };
 
@@ -347,7 +335,7 @@
             return el
               .animate(end_css, settings.animation_speed, 'linear', function () {
                 this.locked = false;
-                el.css(css).trigger('closed').trigger('closed.fndtn.reveal');
+                el.css(css).trigger('closed');
               }.bind(this))
               .removeClass('open');
           }.bind(this), settings.animation_speed / 2);
@@ -360,13 +348,13 @@
             return el
               .animate(end_css, settings.animation_speed, 'linear', function () {
                 this.locked = false;
-                el.css(css).trigger('closed').trigger('closed.fndtn.reveal');
+                el.css(css).trigger('closed');
               }.bind(this))
               .removeClass('open');
           }.bind(this), settings.animation_speed / 2);
         }
 
-        return el.hide().css(css).removeClass('open').trigger('closed').trigger('closed.fndtn.reveal');
+        return el.hide().css(css).removeClass('open').trigger('closed');
       }
 
       var settings = this.settings;
@@ -385,7 +373,7 @@
 
       if (iframe.length > 0) {
         iframe.attr('data-src', iframe[0].src);
-        iframe.attr('src', iframe.attr('src'));
+        iframe.attr('src', 'about:blank');
         video.hide();
       }
     },

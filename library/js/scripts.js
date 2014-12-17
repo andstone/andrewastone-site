@@ -11,6 +11,9 @@ slow the page load.
 
 // as the page loads, call these scripts
 jQuery(document).ready(function($) {
+
+    // $('.container').shapeshift();
+    
 	// load Foundation
 	jQuery(document).foundation();
 	
@@ -21,6 +24,7 @@ jQuery(document).ready(function($) {
     
 
 // add all your scripts here
+
 	
  
 }); /* end of as page load scripts */
