@@ -47,9 +47,6 @@ MEDIUM
 
 	// styles in medium.scss
 	@import "medium";
-.top-bar {
-	display:none;
-}
 
 } // end of media query
 
@@ -119,25 +116,4 @@ be set to display none.
 */
 @media print {
 	@import "print";
-}
-
-
-// #bio {
-// 	border-radius: $global-radius;
-// }
-
-body {
-	background-image: url(https://unsplash.it/g/900/600/?blur);
-	background-size:cover;
-}
-
-.container {
-  position: relative;
-  width: 100%;
-}
-
-.container div {
-  height: 120px; 
-  position: absolute; 
-  width: 80px;
 }
