@@ -25,6 +25,9 @@ jQuery(document).ready(function($) {
 
 // add all your scripts here
 
+
+// Projects Sorter
+
 $('#projects-sort a').on('click', function() {
 
     var $projects = $('#projects > li');
