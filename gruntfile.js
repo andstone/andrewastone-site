@@ -5,14 +5,14 @@ module.exports = function(grunt) {
     // Watches for changes and runs tasks
     // Livereload is setup for the 35729 port by default
     watch: {
-      sass: {
-        files: ['library/scss/*.scss'],
-        tasks: ['compass:dist'],
-      },
       css: {
-        files: ['library/css/*.css'],
-        options: { livereload: 35729 }
+      files: ['library/scss/*.scss'],
+      tasks: ['compass:dist'],
+      options: {
+        // Start a live reload server on the default port 35729
+        livereload: true,
       },
+    },
       js: {
         files: ['library/js/*.js'],
         options: { livereload: 35729 }
@@ -30,7 +30,6 @@ module.exports = function(grunt) {
         options: {
           sassDir: 'library/scss',
           cssDir: 'library/css',
-          config: 'library/scss/config.rb'
         }
       }
     }
@@ -39,11 +38,11 @@ module.exports = function(grunt) {
   });
 
   // Default task
-  grunt.registerTask('default', ['watch']);
+  grunt.registerTask('default', ['watch', 'compass']);
 
   // Load up tasks
-  grunt.loadNpmTasks('grunt-contrib-sass');
   grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-contrib-sass');
   grunt.loadNpmTasks('grunt-contrib-compass');
 
 };

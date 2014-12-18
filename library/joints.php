@@ -119,14 +119,14 @@ function joints_scripts_and_styles() {
     // modernizr (without media query polyfill)
     wp_enqueue_script( 'modernizr', get_template_directory_uri() . '/bower_components/foundation/js/vendor/modernizr.js', array(), '2.5.3', false );
     
-    // modernizr (without media query polyfill)
-    wp_enqueue_script( 'jquery-ui', get_template_directory_uri() . '/bower_components/foundation/js/vendor/modernizr.js', array(), '2.5.3', false );
-
     // adding Foundation scripts file in the footer
     wp_enqueue_script( 'foundation-js', get_template_directory_uri() . '/bower_components/foundation/js/foundation.min.js', array( 'jquery' ), $theme_version, true );
    
-    // adding Shuffle
-    wp_enqueue_script( 'shuffle-js', get_template_directory_uri() . '/bower_components/shufflejs/dist/ jquery.shuffle.min.js', array( 'jquery' ), $theme_version, true );
+    // adding Shapeshift
+    wp_enqueue_script( 'shapeshift-js', get_template_directory_uri() . '/bower_components/jquery.shapeshift/core/jquery.shapeshift.js', array( 'jquery' ), $theme_version, true );
+
+     // adding Shapeshift
+    wp_enqueue_script( 'touchpunch-js', get_template_directory_uri() . '/bower_components/jquery.shapeshift/core/vendor/jquery.ui.touch-punch.min.js', array( 'jquery' ), $theme_version, true );
 
     // register main stylesheet
     wp_enqueue_style( 'joints-stylesheet', get_template_directory_uri() . '/library/css/style.css', array(), $theme_version, 'all' );
