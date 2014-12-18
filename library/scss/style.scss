@@ -117,3 +117,7 @@ be set to display none.
 @media print {
 	@import "print";
 }
+
+#inner-header, .page-template-page-home-php .article-header {
+	display:none;
+}

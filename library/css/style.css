@@ -21442,3 +21442,7 @@ be set to display none.
     display: none;
   }
 }
+/* line 121, ../scss/style.scss */
+#inner-header, .page-template-page-home-php .article-header {
+  display: none;
+}

@@ -5,7 +5,7 @@ module.exports = function(grunt) {
     // Watches for changes and runs tasks
     // Livereload is setup for the 35729 port by default
     watch: {
-      css: {
+      scss: {
       files: ['library/scss/*.scss'],
       tasks: ['compass:dist'],
       options: {
@@ -19,6 +19,12 @@ module.exports = function(grunt) {
       },
       php: {
         files: ['**/*.php'],
+        options: {
+          livereload: 35729
+        }
+      },
+       css: {
+        files: ['library/css/*.css'],
         options: {
           livereload: 35729
         }

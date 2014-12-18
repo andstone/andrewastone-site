@@ -24,18 +24,13 @@ jQuery(document).ready(function($) {
 
 
 // add all your scripts here
-
-var items = [];
-for ( var i = 0; i < 10; i++ ) {
-items.push( "<img src='https://unsplash.it/300/200/?random="+i+"' />" );
-}
-$( "<ul/>", {
-    "class": "my-new-list",
-    html: items.join( "" )
-  }).appendTo( ".container" );
+$('#projects-sort a').click( function() {
+$('#projects > li[data-groups="1"]').toggle('slow');
+})
 
 
 }); /* end of as page load scripts */
+
 
 
 /*! A fix for the iOS orientationchange zoom bug.
