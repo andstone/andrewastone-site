@@ -24,9 +24,27 @@ jQuery(document).ready(function($) {
 
 
 // add all your scripts here
-$('#projects-sort a').click( function() {
-$('#projects > li[data-groups="1"]').toggle('slow');
-})
+
+$('#projects-sort a').on('click', function() {
+
+    var $projects = $('#projects > li');
+    var cat = $(this).attr('data-category');
+
+    $projects.fadeOut(400, function() {
+    }).promise().done(function() {
+        console.log(cat);
+        if (cat == "all") {
+        $projects.appendTo($('#projects > div'));
+        $('#projects > div > li').appendTo($('#projects'));
+        $projects.fadeIn();
+        }
+        else {
+        $projects.appendTo($('#projects > div'));
+        $('#projects > div > li[data-groups="'+cat+'"]').appendTo($('#projects'));
+        $projects.fadeIn();
+        }
+    });
+});
 
 
 }); /* end of as page load scripts */

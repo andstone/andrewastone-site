@@ -24,25 +24,25 @@ Template Name: Home
 				</div>
 <div id="outer-content" class="row">
 <ul id="projects-sort" class="inline-list">
-  <li><a href="#">Link 1</a></li>
-  <li><a href="#">Link 2</a></li>
-  <li><a href="#">Link 3</a></li>
-  <li><a href="#">Link 4</a></li>
-  <li><a href="#">Link 5</a></li>
+  <li><a href="#" data-category="all">All</a></li>
+  <li><a href="#" data-category="web">Websites</a></li>
+  <li><a href="#" data-category="apps">Apps</a></li>
+  <li><a href="#" data-category="photo">Photography</a></li>
 </ul>
 <ul id="projects" class="large-block-grid-4 medium-block-grid-3 small-block-grid-2">
-<li data-groups="0"><a class="th [radius]" href="#">
-<img src="https://unsplash.it/300/200/?random=0"></a></li>
-<li data-groups="1"><a class="th [radius]" href="#">
-<img  src="https://unsplash.it/300/200/?random=1"></a></li>
-<li data-groups="0"><a class="th [radius]" href="#">
-<img src="https://unsplash.it/300/200/?random=2"></a></li>
-<li data-groups="2"><a class="th [radius]" href="#">
-<img  src="https://unsplash.it/300/200/?random=3"></a></li>
-<li data-groups="1"><a class="th [radius]" href="#">
-<img  src="https://unsplash.it/300/200/?random=4"></a></li>
-<li data-groups="2"><a class="th [radius]" href="#">
-<img src="https://unsplash.it/300/200/?random=5"></a></li>
+<li data-groups="web"><a class="th [radius]" href="#">
+<img src="https://unsplash.it/300/200/?random=0"></a>website</li>
+<li data-groups="photo"><a class="th [radius]" href="#">
+<img  src="https://unsplash.it/300/200/?random=1"></a>photo</li>
+<li data-groups="apps"><a class="th [radius]" href="#">
+<img src="https://unsplash.it/300/200/?random=2"></a>apps</li>
+<li data-groups="apps"><a class="th [radius]" href="#">
+<img  src="https://unsplash.it/300/200/?random=3"></a>apps</li>
+<li data-groups="web"><a class="th [radius]" href="#">
+<img  src="https://unsplash.it/300/200/?random=4"></a>website</li>
+<li data-groups="photo"><a class="th [radius]" href="#">
+<img src="https://unsplash.it/300/200/?random=5"></a>photo</li>
+  <div class="hide"></div>
 </ul>
 </div>
 
