@@ -48,7 +48,6 @@ module.exports = function(grunt) {
 
   // Load up tasks
   grunt.loadNpmTasks('grunt-contrib-watch');
-  grunt.loadNpmTasks('grunt-contrib-sass');
   grunt.loadNpmTasks('grunt-contrib-compass');
 
 };
